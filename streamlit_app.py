@@ -54,7 +54,9 @@ with tab2:
             st.session_state.participantes = []
             st.info("Lista vaciada.")
 
-     st.markdown(""" --- """)
+    st.markdown("""
+    ---
+    """)
 
 # ----------------------
 # 🎯 Pestaña 3: Puntajes
@@ -74,7 +76,9 @@ with tab3:
         for nombre, puntaje in st.session_state.puntajes.items():
             st.markdown(f"**{nombre}**: {puntaje} puntos")
 
-     st.markdown(""" --- """)
+    st.markdown("""
+    ---
+    """)
 
 
 # Footer divertido
