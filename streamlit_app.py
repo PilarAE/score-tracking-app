@@ -73,7 +73,7 @@ with tab3:
                 st.session_state.puntajes[nombre] = 0
 
         # Seleccionar jugador
-        jugador = st.selectbox("Seleccioná un jugador:", st.session_state.participantes)
+        jugador = st.selectbox("Selecciona un jugador:", st.session_state.participantes)
 
         # Ingresar puntaje nuevo
         nuevo_puntaje = st.number_input("Puntaje a agregar:", min_value=0, step=1)
