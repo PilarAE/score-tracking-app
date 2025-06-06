@@ -7,7 +7,7 @@ st.set_page_config(page_title="Bienvenido", layout="centered")
 st.title("🎉 Bienvenido a la App Interactiva 🎉")
 
 # Instrucciones
-st.markdown("Ingresa los nombres de quienes participarán. ¡Usá el campo de texto y diviertete!")
+st.markdown("Ingresa los nombres de quienes participarán.")
 
 # Inicializar lista de participantes
 if "participantes" not in st.session_state:
@@ -39,5 +39,5 @@ if st.button("🗑️ Limpiar lista"):
 st.markdown("---")
 
 # Footer divertido
-st.markdown("Hecho por Rodrigo Lopez")
+st.markdown("Hecho por Rodrigo López de inovación")
 
