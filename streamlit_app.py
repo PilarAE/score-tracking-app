@@ -1,46 +1,43 @@
 import streamlit as st
 
-def main():
-    # Diccionario de esquemas de color
-    colores_tema = {
-        "Azul": {
-            "background": "#E8F0FE",
-            "text": "#0D47A1"
-        },
-        "Verde": {
-            "background": "#E8F5E9",
-            "text": "#1B5E20"
-        },
-        "Rosa": {
-            "background": "#FCE4EC",
-            "text": "#880E4F"
-        }
-    }
+# Configuración inicial
+st.set_page_config(page_title="Bienvenido", layout="centered")
 
-    # Configuración de la página
-    st.set_page_config(page_title="Contador de Puntaje", layout="centered")
+# Título principal
+st.title("🎉 Bienvenido a la App Interactiva 🎉")
 
-    # Selector de color
-    color_elegido = st.radio("Elegí un tema de color:", list(colores_tema.keys()))
+# Instrucciones
+st.markdown("Ingresá los nombres de quienes participarán. ¡Usá el campo de texto y divertite!")
 
-    # Estilo HTML dinámico
-    estilo = f"""
-        <style>
-        .custom-container {{
-            background-color: {colores_tema[color_elegido]["background"]};
-            color: {colores_tema[color_elegido]["text"]};
-            padding: 3em;
-            border-radius: 10px;
-            text-align: center;
-        }}
-        </style>
-        <div class="custom-container">
-            <h1>¡Bienvenido!</h1>
-            <p>Gracias por visitar esta página hecha con Streamlit 😊</p>
-        </div>
-    """
-    st.markdown(estilo, unsafe_allow_html=True)
+# Inicializar lista de participantes
+if "participantes" not in st.session_state:
+    st.session_state.participantes = []
 
-# Ejecutar la función principal
-if __name__ == "__main__":
-    main()
+# Campo para ingresar nombre
+nombre = st.text_input("✍️ Escribí un nombre:")
+
+# Botón para agregar nombre
+if st.button("➕ Agregar"):
+    if nombre.strip() != "":
+        st.session_state.participantes.append(nombre.strip())
+        st.success(f"Agregado: {nombre}")
+    else:
+        st.warning("Por favor, escribí un nombre antes de hacer clic.")
+
+# Mostrar lista actual
+if st.session_state.participantes:
+    st.markdown("### 🧑‍🤝‍🧑 Lista de Participantes:")
+    for i, p in enumerate(st.session_state.participantes, start=1):
+        st.markdown(f"- {i}. {p}")
+
+# Botón para reiniciar la lista
+if st.button("🗑️ Limpiar lista"):
+    st.session_state.participantes = []
+    st.info("Lista vaciada.")
+
+# Divisor
+st.markdown("---")
+
+# Footer divertido
+st.markdown("Hecho con 💻 y ❤️ usando Streamlit")
+
