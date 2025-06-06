@@ -67,14 +67,32 @@ with tab3:
     if not st.session_state.participantes:
         st.warning("Primero agrega participantes en la pestaña anterior.")
     else:
+        # Inicializar puntajes si no existen
         for nombre in st.session_state.participantes:
-            puntaje = st.number_input(f"Ingresa el puntaje para {nombre}:", min_value=0, step=1)
-            st.session_state.puntajes[nombre] = puntaje
+            if nombre not in st.session_state.puntajes:
+                st.session_state.puntajes[nombre] = 0
 
-        st.markdown("---")
-        st.subheader("📊 Puntajes registrados:")
+        # Seleccionar jugador
+        jugador = st.selectbox("Seleccioná un jugador:", st.session_state.participantes)
+
+        # Ingresar puntaje nuevo
+        nuevo_puntaje = st.number_input("Puntaje a agregar:", min_value=0, step=1)
+
+        # Botón para agregar puntaje
+        if st.button("➕ Sumar puntaje"):
+            st.session_state.puntajes[jugador] += nuevo_puntaje
+            st.success(f"{jugador} ahora tiene {st.session_state.puntajes[jugador]} puntos.")
+
+        # Mostrar tabla de puntajes actualizados
+        st.subheader("📊 Puntajes Totales:")
         for nombre, puntaje in st.session_state.puntajes.items():
-            st.markdown(f"**{nombre}**: {puntaje} puntos")
+            st.markdown(f"- **{nombre}**: {puntaje} puntos")
+
+        # Botón para reiniciar todos los puntajes
+        if st.button("🔄 Reiniciar puntajes"):
+            for nombre in st.session_state.puntajes:
+                st.session_state.puntajes[nombre] = 0
+            st.info("Todos los puntajes fueron reiniciados a 0.")
 
     st.markdown("""
     ---
