@@ -160,9 +160,9 @@ with tab4:
         with col_tipo:
             tipo_puntaje = st.radio("¿Qué puntaje deseas modificar?", ["A", "B"], horizontal=True, key="puntaje_tab4")
             if st.session_state.permitir_negativos:
-                nuevo_puntaje = st.number_input("Puntaje a agregar o restar:", step=1, value=0, key="puntaje_doble", key="ptje_tab4")
+                nuevo_puntaje = st.number_input("Puntaje a agregar o restar:", step=1, value=0, key="puntaje_doble")
             else:
-                nuevo_puntaje = st.number_input("Puntaje a agregar:", min_value=0, step=1, value=0, key="puntaje_doble", key="ptje_tab4")
+                nuevo_puntaje = st.number_input("Puntaje a agregar:", min_value=0, step=1, value=0, key="puntaje_doble")
 
         if st.button("➕ Sumar a puntaje A ó B"):
             st.session_state.puntajes[jugador][tipo_puntaje] += nuevo_puntaje
