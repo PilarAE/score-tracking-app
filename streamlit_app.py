@@ -115,7 +115,7 @@ with tab3:
 
     participantes_visibles_tab3 = st.session_state.orden_personalizado if st.session_state.orden_personalizado else st.session_state.participantes
 
-    if not participantes_visibles:
+    if not participantes_visibles_tab3:
         st.warning("Primero agrega participantes en la pestaña anterior.")
     else:
         col_, col_puntaje = st.columns([2, 2])
@@ -156,7 +156,7 @@ with tab4:
 
     participantes_visibles_tab4 = st.session_state.orden_personalizado if st.session_state.orden_personalizado else st.session_state.participantes
 
-    if not participantes_visibles:
+    if not participantes_visibles_tab4:
         st.warning("Primero agrega participantes en la pestaña anterior.")
     else:
         col_jugador, col_tipo = st.columns([2, 2])
