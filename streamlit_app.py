@@ -90,7 +90,7 @@ with tab2:
 # 🎯 Pestaña 3: Puntaje único (solo A)
 # ----------------------
 with tab3:
-    st.header("🎯 Puntaje Único (A)")
+    st.header("🎯 Puntaje Único")
 
     if not st.session_state.participantes:
         st.warning("Primero agrega participantes en la pestaña anterior.")
@@ -108,14 +108,22 @@ with tab3:
             st.session_state.puntajes[jugador]["A"] += nuevo_puntaje
             st.success(f"{jugador} ahora tiene {st.session_state.puntajes[jugador]['A']} puntos.")
 
-        st.subheader("📊 Puntajes Totales (A):")
+        # Mostrar como tabla
+        st.subheader("📊 Puntajes Totales:")
+        data = {
+            "Participante": [],
+            "Puntaje": [],
+        }
         for nombre, p in st.session_state.puntajes.items():
-            st.markdown(f"- **{nombre}**: {p['A']} puntos")
-
-        if st.button("🔄 Reiniciar puntajes A"):
+            data["Participante"].append(nombre)
+            data["Puntaje"].append(p.get("A", 0))
+        df = pd.DataFrame(data)
+        st.table(df.reset_index(drop=True))
+        
+        if st.button("🔄 Reiniciar puntajes"):
             for nombre in st.session_state.puntajes:
                 st.session_state.puntajes[nombre]["A"] = st.session_state.puntaje_base_a
-            st.info("Todos los puntajes A fueron reiniciados.")
+            st.info("Todos los puntajes fueron reiniciados.")
 
 # ----------------------
 # 🏅 Pestaña 4: Dos Contadores (A y B)
@@ -136,12 +144,12 @@ with tab4:
             else:
                 nuevo_puntaje = st.number_input("Puntaje a agregar:", min_value=0, step=1, value=0, key="puntaje_doble")
 
-        if st.button("➕ Sumar a puntaje A/B"):
+        if st.button("➕ Sumar a puntaje A ó B"):
             st.session_state.puntajes[jugador][tipo_puntaje] += nuevo_puntaje
             st.success(f"{jugador} ahora tiene {st.session_state.puntajes[jugador][tipo_puntaje]} puntos en el puntaje {tipo_puntaje}.")
 
         # Mostrar como tabla
-        st.subheader("📊 Puntajes Totales A y B:")
+        st.subheader("📊 Puntajes Totales:")
         data = {
             "Participante": [],
             "Puntaje A": [],
@@ -152,7 +160,7 @@ with tab4:
             data["Puntaje A"].append(p.get("A", 0))
             data["Puntaje B"].append(p.get("B", 0))
         df = pd.DataFrame(data)
-        st.table(df)
+        st.table(df.reset_index(drop=True))
 
         if st.button("🔄 Reiniciar A y B"):
             for nombre in st.session_state.puntajes:
