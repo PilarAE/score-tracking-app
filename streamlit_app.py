@@ -6,13 +6,15 @@ st.set_page_config(page_title="App Interactiva", layout="centered")
 # Título general
 st.title("🏆 App de Conteo de Puntajes")
 
-# Inicializar listas en la sesión
+# Inicializar listas y variables en la sesión
 if "participantes" not in st.session_state:
     st.session_state.participantes = []
 if "puntajes" not in st.session_state:
     st.session_state.puntajes = {}
 if "permitir_negativos" not in st.session_state:
     st.session_state.permitir_negativos = False
+if "puntaje_base" not in st.session_state:
+    st.session_state.puntaje_base = 0
 
 # Crear las pestañas
 tab1, tab2, tab3, tab4 = st.tabs([
@@ -30,8 +32,25 @@ with tab1:
     1. **Ingresa Participantes:** Aquí puedes agregar los nombres de los participantes.
     2. **Puntaje único:** Puedes sumar (o restar) puntaje total por jugador.
     3. **Puntajes A y B:** Puedes llevar dos puntajes por jugador (por ejemplo, ataque y defensa).
-    4. **Configuración:** Al final de la página puedes permitir puntajes negativos.
+    4. **Configuración:** Al final de la página puedes permitir puntajes negativos y definir puntaje base.
     """)
+
+# ----------------------
+# ⚙️ Configuración global
+# ----------------------
+st.markdown("---")
+st.subheader("⚙️ Configuración de Puntajes")
+
+puntaje_base = st.number_input(
+    "Define el puntaje base con el que parten todos los jugadores (dejar en 0 para comenzar en 0):",
+    value=st.session_state.puntaje_base, step=1
+)
+st.session_state.puntaje_base = puntaje_base
+
+st.session_state.permitir_negativos = st.toggle(
+    "¿Permitir que los puntajes bajen (valores negativos)?",
+    value=st.session_state.permitir_negativos
+)
 
 # ----------------------
 # 👥 Pestaña 2: Participantes
@@ -51,8 +70,8 @@ with tab2:
                 st.warning("Este nombre ya fue ingresado.")
             else:
                 st.session_state.participantes.append(nombre_limpio)
-                st.session_state.puntajes[nombre_limpio] = {"A": 0, "B": 0}
-                st.success(f"Agregado: {nombre_limpio}")
+                st.session_state.puntajes[nombre_limpio] = {"A": puntaje_base, "B": puntaje_base}
+                st.success(f"Agregado: {nombre_limpio} con puntaje base {puntaje_base}")
 
     with col2:
         if st.session_state.participantes:
@@ -76,20 +95,26 @@ with tab3:
     if not st.session_state.participantes:
         st.warning("Primero agrega participantes en la pestaña anterior.")
     else:
-        # Inicializar puntajes como enteros si es necesario
         for nombre in st.session_state.participantes:
             if nombre not in st.session_state.puntajes:
-                st.session_state.puntajes[nombre] = {"A": 0, "B": 0}
+                st.session_state.puntajes[nombre] = {"A": puntaje_base, "B": puntaje_base}
             elif isinstance(st.session_state.puntajes[nombre], int):
-                st.session_state.puntajes[nombre] = {"A": st.session_state.puntajes[nombre], "B": 0}
+                st.session_state.puntajes[nombre] = {"A": st.session_state.puntajes[nombre], "B": puntaje_base}
+            else:
+                if "A" not in st.session_state.puntajes[nombre]:
+                    st.session_state.puntajes[nombre]["A"] = puntaje_base
 
-        jugador = st.radio("Selecciona un jugador:", st.session_state.participantes)
+        # Aquí usamos columnas para poner selector y input en la misma fila
+        col_jugador, col_puntaje = st.columns([2, 2])
 
-        # Entrada de puntaje dependiendo del toggle
-        if st.session_state.permitir_negativos:
-            nuevo_puntaje = st.number_input("Puntaje a agregar o restar:", step=1, value=0)
-        else:
-            nuevo_puntaje = st.number_input("Puntaje a agregar:", min_value=0, step=1, value=0)
+        with col_jugador:
+            jugador = st.radio("Selecciona un jugador:", st.session_state.participantes)
+
+        with col_puntaje:
+            if st.session_state.permitir_negativos:
+                nuevo_puntaje = st.number_input("Puntaje a agregar o restar:", step=1, value=0)
+            else:
+                nuevo_puntaje = st.number_input("Puntaje a agregar:", min_value=0, step=1, value=0)
 
         if st.button("➕ Sumar puntaje") and jugador:
             st.session_state.puntajes[jugador]["A"] += nuevo_puntaje
@@ -101,8 +126,8 @@ with tab3:
 
         if st.button("🔄 Reiniciar puntajes"):
             for nombre in st.session_state.puntajes:
-                st.session_state.puntajes[nombre]["A"] = 0
-            st.info("Todos los puntajes fueron reiniciados a 0.")
+                st.session_state.puntajes[nombre]["A"] = puntaje_base
+            st.info(f"Todos los puntajes fueron reiniciados a {puntaje_base}.")
 
     st.markdown("---")
 
@@ -117,20 +142,25 @@ with tab4:
     else:
         for nombre in st.session_state.participantes:
             if nombre not in st.session_state.puntajes:
-                st.session_state.puntajes[nombre] = {"A": 0, "B": 0}
+                st.session_state.puntajes[nombre] = {"A": puntaje_base, "B": puntaje_base}
             else:
                 if "A" not in st.session_state.puntajes[nombre]:
-                    st.session_state.puntajes[nombre]["A"] = 0
+                    st.session_state.puntajes[nombre]["A"] = puntaje_base
                 if "B" not in st.session_state.puntajes[nombre]:
-                    st.session_state.puntajes[nombre]["B"] = 0
+                    st.session_state.puntajes[nombre]["B"] = puntaje_base
 
-        jugador = st.selectbox("Selecciona un jugador:", st.session_state.participantes)
-        tipo_puntaje = st.radio("¿Qué puntaje deseas modificar?", ["A", "B"], horizontal=True)
+        col_jugador, col_puntaje = st.columns([2, 2])
 
-        if st.session_state.permitir_negativos:
-            nuevo_puntaje = st.number_input("Puntaje a agregar o restar:", step=1, value=0, key="puntaje_doble")
-        else:
-            nuevo_puntaje = st.number_input("Puntaje a agregar:", min_value=0, step=1, value=0, key="puntaje_doble")
+        with col_jugador:
+            jugador = st.selectbox("Selecciona un jugador:", st.session_state.participantes)
+
+        with col_puntaje:
+            tipo_puntaje = st.radio("¿Qué puntaje deseas modificar?", ["A", "B"], horizontal=True)
+
+            if st.session_state.permitir_negativos:
+                nuevo_puntaje = st.number_input("Puntaje a agregar o restar:", step=1, value=0, key="puntaje_doble")
+            else:
+                nuevo_puntaje = st.number_input("Puntaje a agregar:", min_value=0, step=1, value=0, key="puntaje_doble")
 
         if st.button("➕ Sumar a puntaje A/B"):
             st.session_state.puntajes[jugador][tipo_puntaje] += nuevo_puntaje
@@ -142,16 +172,6 @@ with tab4:
 
         if st.button("🔄 Reiniciar A y B"):
             for nombre in st.session_state.puntajes:
-                st.session_state.puntajes[nombre]["A"] = 0
-                st.session_state.puntajes[nombre]["B"] = 0
-            st.info("Todos los puntajes A y B fueron reiniciados.")
-
-# ----------------------
-# ⚙️ Configuración global
-# ----------------------
-st.markdown("---")
-st.subheader("⚙️ Configuración de Puntajes")
-st.session_state.permitir_negativos = st.toggle(
-    "¿Permitir que los puntajes bajen (valores negativos)?",
-    value=st.session_state.permitir_negativos
-)
+                st.session_state.puntajes[nombre]["A"] = puntaje_base
+                st.session_state.puntajes[nombre]["B"] = puntaje_base
+            st.info(f"Todos los puntajes A y B fueron reiniciados a {puntaje_base}.")
