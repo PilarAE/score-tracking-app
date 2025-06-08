@@ -58,9 +58,9 @@ with tab2:
     )
 
     st.markdown("---")
-    st.subheader("👥 Agrega Participantes")
     col1, col2 = st.columns(2)
     with col1:
+    st.subheader("👥 Agrega Participantes")
         nombre = st.text_input("✍️ Escribe un nombre:")
 
         if st.button("➕ Agregar"):
@@ -97,7 +97,8 @@ with tab2:
     with col1:
         if st.session_state.participantes:
             st.markdown("### 🧑‍🤝‍🧑 Lista actual:")
-            for i, p in enumerate(st.session_state.participantes, start=1):
+            participantes_visibles_tab2 = st.session_state.orden_personalizado if st.session_state.orden_personalizado else st.session_state.participantes
+            for i, p in enumerate(participantes_visibles_tab2, start=1):
                 st.markdown(f"- {i}. {p}")
 
             if st.button("🗑️ Limpiar lista"):
@@ -143,7 +144,7 @@ with tab3:
         df = pd.DataFrame(data)
         st.table(df.reset_index(drop=True))
         
-        if st.button("🔄 Reiniciar puntajes"):
+        if st.button("🔄 Reiniciar puntajes", key="reiniciar_tab3"):
             for nombre in st.session_state.puntajes:
                 st.session_state.puntajes[nombre]["A"] = st.session_state.puntaje_base_a
             st.info("Todos los puntajes fueron reiniciados.")
@@ -187,7 +188,7 @@ with tab4:
         df = pd.DataFrame(data)
         st.table(df.reset_index(drop=True))
 
-        if st.button("🔄 Reiniciar puntajes"):
+        if st.button("🔄 Reiniciar puntajes", key="reiniciar_tab4"):
             for nombre in st.session_state.puntajes:
                 st.session_state.puntajes[nombre]["A"] = st.session_state.puntaje_base_a
                 st.session_state.puntajes[nombre]["B"] = st.session_state.puntaje_base_b
