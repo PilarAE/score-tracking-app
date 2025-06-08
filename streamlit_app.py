@@ -46,9 +46,9 @@ with tab2:
 
     col1, col2 = st.columns(2)
     with col1:
-        st.session_state.puntaje_base_a = st.number_input("Puntaje base A:", step=1, value=st.session_state.puntaje_base_a)
+        st.session_state.puntaje_base_a = st.number_input("Puntaje base A (puede ser único):", step=1, value=st.session_state.puntaje_base_a)
     with col2:
-        st.session_state.puntaje_base_b = st.number_input("Puntaje base B:", step=1, value=st.session_state.puntaje_base_b)
+        st.session_state.puntaje_base_b = st.number_input("Puntaje base B (si necesitas dos contadores):", step=1, value=st.session_state.puntaje_base_b)
 
     st.session_state.permitir_negativos = st.toggle(
         "¿Permitir que los puntajes bajen (valores negativos)?",
@@ -95,9 +95,9 @@ with tab3:
     if not st.session_state.participantes:
         st.warning("Primero agrega participantes en la pestaña anterior.")
     else:
-        col_jugador, col_puntaje = st.columns([2, 2])
-        with col_jugador:
-            jugador = st.radio("Selecciona un jugador:", st.session_state.participantes)
+        col_, col_puntaje = st.columns([2, 2])
+        with col_:
+            jugador = st.radio("Selecciona un jugador:", st.session_state.participantes, key="jugador_tab3")
         with col_puntaje:
             if st.session_state.permitir_negativos:
                 nuevo_puntaje = st.number_input("Puntaje a agregar o restar:", step=1, value=0)
@@ -128,7 +128,7 @@ with tab4:
     else:
         col_jugador, col_tipo = st.columns([2, 2])
         with col_jugador:
-            jugador = st.radio("Selecciona un jugador:", st.session_state.participantes)
+            jugador = st.radio("Selecciona un jugador:", st.session_state.participantes, key="jugador_tab4")
         with col_tipo:
             tipo_puntaje = st.radio("¿Qué puntaje deseas modificar?", ["A", "B"], horizontal=True)
             if st.session_state.permitir_negativos:
