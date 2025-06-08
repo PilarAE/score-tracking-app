@@ -7,41 +7,41 @@ st.set_page_config(page_title="App Interactiva", layout="centered")
 # Estilo visual personalizado
 st.markdown("""
 <style>
-/* Fondo de la página: gris oscuro */
-body {
-    background-color: #444; /* Igual que el fondo actual de las cards */
-    color: white;
+/* Fondo general para todo el layout de Streamlit */
+html, body, .stApp {
+    background-color: #444 !important;
+    color: white !important;
 }
 
-/* Encabezados con tamaño reducido y letras blancas */
+/* Encabezados con tamaño reducido y color blanco */
 h1, h2, h3, h4 {
-    color: white;
-    font-size: 1.4em;
+    color: white !important;
+    font-size: 1.4em !important;
 }
 
-/* Texto general y textos pequeños */
-small, .markdown-text-container {
-    color: white;
+/* Texto general y markdown */
+small, .markdown-text-container, .stMarkdown {
+    color: white !important;
 }
 
-/* Botones personalizados */
+/* Botones con fondo amarillo y texto gris oscuro */
 button {
-    background-color: #f4b400 !important;  /* Amarillo opaco */
-    color: #444 !important;                /* Letras gris oscuro */
+    background-color: #f4b400 !important;
+    color: #444 !important;
     border-radius: 12px !important;
     font-weight: bold !important;
 }
 
-/* Estilo para tablas */
+/* Estilo para las tablas */
 div[data-testid="stTable"] table {
-    background-color: #555;  /* Más claro que el fondo */
-    color: white;
+    background-color: #555 !important;
+    color: white !important;
     border-radius: 10px;
 }
 
-/* Tarjetas de jugadores más claras */
+/* Tarjetas (puedes usarlas con st.markdown usando div.card) */
 .card {
-    background-color: #666; /* Gris más claro que el fondo */
+    background-color: #666;
     border: 1px solid #888;
     border-radius: 12px;
     padding: 16px;
