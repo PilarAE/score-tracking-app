@@ -221,13 +221,13 @@ with tab4:
         cols = st.columns(4)
         for idx, nombre in enumerate(participantes_visibles_tab4):
             with cols[idx % 4]:
-            st.markdown(f"""
-            <div class="card">
+                st.markdown(f"""
+                <div class="card">
                 <h4>{nombre}</h4>
                 <p>A: <strong>{st.session_state.puntajes[nombre].get("A", 0)}</strong></p>
                 <p>B: <strong>{st.session_state.puntajes[nombre].get("B", 0)}</strong></p>
-            </div>
-            """, unsafe_allow_html=True)
+                </div>
+                """, unsafe_allow_html=True)
         
         if st.button("🔄 Reiniciar puntajes", key="reiniciar_tab4"):
             for nombre in st.session_state.puntajes:
