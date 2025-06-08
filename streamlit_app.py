@@ -18,7 +18,7 @@ if "puntaje_base" not in st.session_state:
 
 # Crear las pestañas
 tab1, tab2, tab3, tab4 = st.tabs([
-    "📖 Instrucciones", "👥 Ingresa Participantes", "🎯 Ingresa Puntaje", "🏅 Puntajes con Dos Contadores"
+    "📖 Instrucciones", "👥 Configura el Juego", "🎯 Ingresa Puntajes", "🏅 Juegos con Dos Contadores"
 ])
 
 # ----------------------
@@ -29,9 +29,9 @@ with tab1:
     st.markdown("""
     Esta aplicación tiene cuatro secciones:
     
-    1. **Ingresa Participantes:** Aquí puedes agregar los nombres de los participantes. También puedes permitir que los puntajes bajen (valores negativos) y definir puntaje base.
+    1. **Configura el Juego:** Aquí puedes agregar los nombres de los participantes. También puedes permitir que los puntajes bajen (valores negativos) y definir puntaje base.
     2. **Ingresa Puntajes:** Aquí ingresas el puntaje de cada ronda por jugador, y llevas el total.
-    3. **Puntajes A y B:** Aquí puedes llevar dos puntajes por jugador (por ejemplo, ataque y defensa).
+    3. **Juegos con Dos Contadores:** Aquí puedes llevar dos puntajes por jugador (por ejemplo, ataque y defensa).
     """)
 
 # ----------------------
@@ -41,11 +41,11 @@ with tab2:
     # ----------------------
     # ⚙️ Configuración global
     # ----------------------
-    st.header("👥 Agregar Participantes")
-    st.subheader("⚙️ Configuración de Puntajes")
+    st.header("👥 Configura el Juego")
+    st.subheader("⚙️ Configura Puntajes")
 
     puntaje_base = st.number_input(
-        "Define el puntaje base con el que parten todos los jugadores (dejar en 0 para comenzar en 0):",
+        "Define el puntaje base con el que parten todos los jugadores (si no, comienza en 0):",
         value=st.session_state.puntaje_base, step=1
     )
     st.session_state.puntaje_base = puntaje_base
@@ -56,6 +56,7 @@ with tab2:
     )
 
     st.markdown("---")
+    st.subheader("👥 Agrega Participantes")
     col1, col2 = st.columns(2)
 
     with col1:
@@ -91,7 +92,7 @@ st.markdown("---")
 # 🎯 Pestaña 3: Puntaje único
 # ----------------------
 with tab3:
-    st.header("🎯 Registrar Puntajes")
+    st.header("🎯 Ingresa Puntajes")
 
     if not st.session_state.participantes:
         st.warning("Primero agrega participantes en la pestaña anterior.")
