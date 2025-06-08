@@ -60,7 +60,7 @@ with tab2:
     st.markdown("---")
     col1, col2 = st.columns(2)
     with col1:
-    st.subheader("👥 Agrega Participantes")
+        st.subheader("👥 Agrega Participantes")
         nombre = st.text_input("✍️ Escribe un nombre:")
 
         if st.button("➕ Agregar"):
