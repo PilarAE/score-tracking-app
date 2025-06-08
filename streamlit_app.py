@@ -56,7 +56,7 @@ with tab2:
     )
 
     st.markdown("---")
-        col1, col2 = st.columns(2)
+    col1, col2 = st.columns(2)
 
     with col1:
         nombre = st.text_input("✍️ Escribe un nombre:")
