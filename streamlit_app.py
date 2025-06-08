@@ -9,8 +9,8 @@ st.markdown("""
 <style>
 /* Tarjetas (puedes usarlas con st.markdown usando div.card) */
 .card {
-    background-color: #666;
-    border: 1px solid #888;
+    background-color: #444;
+    border: 1px solid #666;
     border-radius: 12px;
     padding: 16px;
     margin: 8px;
@@ -126,7 +126,7 @@ with tab2:
 # 🎯 Pestaña 3: Puntaje único (solo A)
 # ----------------------
 with tab3:
-    st.header("🎯 Puntaje Único")
+    st.header("🏅 Puntaje Único")
 
     participantes_visibles_tab3 = st.session_state.orden_personalizado if st.session_state.orden_personalizado else st.session_state.participantes
 
@@ -154,7 +154,7 @@ with tab3:
                 st.markdown(f"""
                 <div class="card">
                 <h4>{nombre}</h4>
-                <p>Puntaje: <strong>{st.session_state.puntajes[nombre].get("A", 0)}</strong></p>
+                <p><strong>{st.session_state.puntajes[nombre].get("A", 0)}</strong></p>
                 </div>
                 """, unsafe_allow_html=True)
         
@@ -189,7 +189,7 @@ with tab4:
             st.success(f"{jugador} ahora tiene {st.session_state.puntajes[jugador][tipo_puntaje]} puntos en el puntaje {tipo_puntaje}.")
 
         # Mostrar como tarjetas
-        st.subheader("📊 Puntajes Totales:")
+        st.subheader("🎯 Puntajes Totales:")
         cols = st.columns(4)
         for idx, nombre in enumerate(participantes_visibles_tab4):
             with cols[idx % 4]:
