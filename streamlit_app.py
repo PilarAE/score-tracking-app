@@ -77,22 +77,9 @@ with tab2:
                 }
                 st.success(f"Agregado: {nombre_limpio} con A={st.session_state.puntaje_base_a}, B={st.session_state.puntaje_base_b}")
 
+    # Reordenar participantes (añadido aquí)
     with col2:
         if st.session_state.participantes:
-            st.markdown("### 🧑‍🤝‍🧑 Lista actual:")
-            for i, p in enumerate(st.session_state.participantes, start=1):
-                st.markdown(f"- {i}. {p}")
-
-            if st.button("🗑️ Limpiar lista"):
-                st.session_state.participantes = []
-                st.session_state.puntajes = {}
-                st.session_state.orden_personalizado = []
-                st.info("Lista de participantes y puntajes vaciada.")
-
-    # Reordenar participantes (añadido aquí)
-    with col1:
-        if st.session_state.participantes:
-            st.markdown("---")
             st.subheader("🔀 Reordenar turnos")
 
             jugadores_disponibles = st.session_state.participantes.copy()
@@ -107,20 +94,33 @@ with tab2:
                 st.session_state.orden_personalizado = nuevo_orden
                 st.success("Se actualizó el orden de los turnos.")
 
+    with col1:
+        if st.session_state.participantes:
+            st.markdown("### 🧑‍🤝‍🧑 Lista actual:")
+            for i, p in enumerate(st.session_state.participantes, start=1):
+                st.markdown(f"- {i}. {p}")
+
+            if st.button("🗑️ Limpiar lista"):
+                st.session_state.participantes = []
+                st.session_state.puntajes = {}
+                st.session_state.orden_personalizado = []
+                st.info("Lista de participantes y puntajes vaciada.")
+
+
 # ----------------------
 # 🎯 Pestaña 3: Puntaje único (solo A)
 # ----------------------
 with tab3:
     st.header("🎯 Puntaje Único")
 
-    participantes_visibles = st.session_state.orden_personalizado if st.session_state.orden_personalizado else st.session_state.participantes
+    participantes_visibles_tab3 = st.session_state.orden_personalizado if st.session_state.orden_personalizado else st.session_state.participantes
 
     if not participantes_visibles:
         st.warning("Primero agrega participantes en la pestaña anterior.")
     else:
         col_, col_puntaje = st.columns([2, 2])
         with col_:
-            jugador = st.radio("Selecciona un jugador:", participantes_visibles, key="jugador_tab3")
+            jugador = st.radio("Selecciona un jugador:", participantes_visibles_tab3, key="jugador_tab3")
         with col_puntaje:
             if st.session_state.permitir_negativos:
                 nuevo_puntaje = st.number_input("Puntaje a agregar o restar:", step=1, value=0)
@@ -137,7 +137,7 @@ with tab3:
             "Participante": [],
             "Puntaje": [],
         }
-        for nombre in participantes_visibles:
+        for nombre in participantes_visibles_tab3:
             data["Participante"].append(nombre)
             data["Puntaje"].append(st.session_state.puntajes[nombre].get("A", 0))
         df = pd.DataFrame(data)
@@ -154,14 +154,14 @@ with tab3:
 with tab4:
     st.header("🏅 Puntajes con Dos Contadores (A y B)")
 
-    participantes_visibles = st.session_state.orden_personalizado if st.session_state.orden_personalizado else st.session_state.participantes
+    participantes_visibles_tab4 = st.session_state.orden_personalizado if st.session_state.orden_personalizado else st.session_state.participantes
 
     if not participantes_visibles:
         st.warning("Primero agrega participantes en la pestaña anterior.")
     else:
         col_jugador, col_tipo = st.columns([2, 2])
         with col_jugador:
-            jugador = st.radio("Selecciona un jugador:", participantes_visibles, key="jugador_tab4")
+            jugador = st.radio("Selecciona un jugador:", participantes_visibles_tab4, key="jugador_tab4")
         with col_tipo:
             tipo_puntaje = st.radio("¿Qué puntaje deseas modificar?", ["A", "B"], horizontal=True)
             if st.session_state.permitir_negativos:
@@ -180,7 +180,7 @@ with tab4:
             "Puntaje A": [],
             "Puntaje B": []
         }
-        for nombre in participantes_visibles:
+        for nombre in participantes_visibles_tab4:
             data["Participante"].append(nombre)
             data["Puntaje A"].append(st.session_state.puntajes[nombre].get("A", 0))
             data["Puntaje B"].append(st.session_state.puntajes[nombre].get("B", 0))
