@@ -95,12 +95,6 @@ with tab2:
                 st.success("Se actualizó el orden de los turnos.")
 
     with col1:
-        if st.session_state.participantes:
-            st.markdown("### 🧑‍🤝‍🧑 Lista actual:")
-            participantes_visibles_tab2 = st.session_state.orden_personalizado if st.session_state.orden_personalizado else st.session_state.participantes
-            for i, p in enumerate(participantes_visibles_tab2, start=1):
-                st.markdown(f"- {i}. {p}")
-
             if st.button("🗑️ Limpiar lista"):
                 st.session_state.participantes = []
                 st.session_state.puntajes = {}
@@ -124,9 +118,9 @@ with tab3:
             jugador = st.radio("Selecciona un jugador:", participantes_visibles_tab3, key="jugador_tab3")
         with col_puntaje:
             if st.session_state.permitir_negativos:
-                nuevo_puntaje = st.number_input("Puntaje a agregar o restar:", step=1, value=0)
+                nuevo_puntaje = st.number_input("Puntaje a agregar o restar:", step=1, value=0, key="ptje_tab3")
             else:
-                nuevo_puntaje = st.number_input("Puntaje a agregar:", min_value=0, step=1, value=0)
+                nuevo_puntaje = st.number_input("Puntaje a agregar:", min_value=0, step=1, value=0, key="ptje_tab3")
 
         if st.button("➕ Sumar puntaje"):
             st.session_state.puntajes[jugador]["A"] += nuevo_puntaje
@@ -164,11 +158,11 @@ with tab4:
         with col_jugador:
             jugador = st.radio("Selecciona un jugador:", participantes_visibles_tab4, key="jugador_tab4")
         with col_tipo:
-            tipo_puntaje = st.radio("¿Qué puntaje deseas modificar?", ["A", "B"], horizontal=True)
+            tipo_puntaje = st.radio("¿Qué puntaje deseas modificar?", ["A", "B"], horizontal=True, key="puntaje_tab4")
             if st.session_state.permitir_negativos:
-                nuevo_puntaje = st.number_input("Puntaje a agregar o restar:", step=1, value=0, key="puntaje_doble")
+                nuevo_puntaje = st.number_input("Puntaje a agregar o restar:", step=1, value=0, key="puntaje_doble", key="ptje_tab4")
             else:
-                nuevo_puntaje = st.number_input("Puntaje a agregar:", min_value=0, step=1, value=0, key="puntaje_doble")
+                nuevo_puntaje = st.number_input("Puntaje a agregar:", min_value=0, step=1, value=0, key="puntaje_doble", key="ptje_tab4")
 
         if st.button("➕ Sumar a puntaje A ó B"):
             st.session_state.puntajes[jugador][tipo_puntaje] += nuevo_puntaje
