@@ -2,30 +2,55 @@ import streamlit as st
 import pandas as pd
 
 # Configuración de la página
-st.set_page_config(page_title="App Interactiva", layout="centered")
+st.set_page_config(page_title="App Interactiva", layout="wide")
 
 # Estilo visual personalizado
 st.markdown("""
 <style>
-/* Tarjetas (puedes usarlas con st.markdown usando div.card) */
+body {
+    background-color: #444444;
+    color: white;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: white;
+    margin-bottom: 0.4em;
+}
+
+small, .markdown-text-container {
+    color: #dddddd;
+}
+
+button {
+    background-color: #f4b400 !important;
+    color: #444444 !important;
+    border-radius: 12px !important;
+    font-weight: bold !important;
+}
+
+div[data-testid="stTable"] table {
+    background-color: #3a3a3a;
+    color: white;
+    border-radius: 10px;
+}
+
 .card {
-    background-color: #444;
-    border: 1px solid #666;
+    background-color: #5a5a5a;
+    border: 1px solid #888;
     border-radius: 12px;
     padding: 16px;
     margin: 8px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     text-align: center;
     color: white;
+    font-weight: bold;
+    font-size: 1em;
 }
 </style>
 """, unsafe_allow_html=True)
 
-#########################################
-
-
 # Título general
-st.title("🏆 App de Conteo de Puntajes")
+st.markdown("<h1>🏆 App de Conteo de Puntajes</h1>", unsafe_allow_html=True)
 
 # Inicializar variables de sesión
 if "participantes" not in st.session_state:
@@ -50,7 +75,7 @@ tab1, tab2, tab3, tab4 = st.tabs([
 # 📖 Pestaña 1: Instrucciones
 # ----------------------
 with tab1:
-    st.subheader("📖 ¿Cómo usar esta app?")
+    st.markdown("<h2>📖 ¿Cómo usar esta app?</h2>", unsafe_allow_html=True)
     st.markdown("""
     Esta aplicación tiene tres secciones:
     
@@ -63,8 +88,8 @@ with tab1:
 # 👥 Pestaña 2: Configuración del Juego
 # ----------------------
 with tab2:
-    st.subheader("👥 Configura el Juego")
-    st.subheader("⚙️ Puntajes Base")
+    st.markdown("<h2>👥 Configura el Juego</h2>", unsafe_allow_html=True)
+    st.markdown("<h3>⚙️ Puntajes Base</h3>", unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
     with col1:
@@ -80,7 +105,7 @@ with tab2:
     st.markdown("---")
     col1, col2 = st.columns(2)
     with col1:
-        st.subheader("👥 Agrega Participantes")
+        st.markdown("<h3>👥 Agrega Participantes</h3>", unsafe_allow_html=True)
         nombre = st.text_input("✍️ Escribe un nombre:")
 
         if st.button("➕ Agregar"):
@@ -97,11 +122,9 @@ with tab2:
                 }
                 st.success(f"Agregado: {nombre_limpio} con A={st.session_state.puntaje_base_a}, B={st.session_state.puntaje_base_b}")
 
-    # Reordenar participantes (añadido aquí)
     with col2:
         if st.session_state.participantes:
-            st.subheader("🔀 Reordena los turnos")
-
+            st.markdown("<h3>🔀 Reordenar turnos</h3>", unsafe_allow_html=True)
             jugadores_disponibles = st.session_state.participantes.copy()
             nuevo_orden = []
 
@@ -115,18 +138,17 @@ with tab2:
                 st.success("Se actualizó el orden de los turnos.")
 
     with col1:
-            if st.button("🗑️ Limpiar lista"):
-                st.session_state.participantes = []
-                st.session_state.puntajes = {}
-                st.session_state.orden_personalizado = []
-                st.info("Lista de participantes y puntajes vaciada.")
-
+        if st.button("🗑️ Limpiar lista"):
+            st.session_state.participantes = []
+            st.session_state.puntajes = {}
+            st.session_state.orden_personalizado = []
+            st.info("Lista de participantes y puntajes vaciada.")
 
 # ----------------------
 # 🎯 Pestaña 3: Puntaje único (solo A)
 # ----------------------
 with tab3:
-    st.subheader("🏅 Puntaje Único")
+    st.markdown("<h2>🎯 Puntaje Único</h2>", unsafe_allow_html=True)
 
     participantes_visibles_tab3 = st.session_state.orden_personalizado if st.session_state.orden_personalizado else st.session_state.participantes
 
@@ -146,18 +168,18 @@ with tab3:
             st.session_state.puntajes[jugador]["A"] += nuevo_puntaje
             st.success(f"{jugador} ahora tiene {st.session_state.puntajes[jugador]['A']} puntos.")
 
-        # Mostrar como tarjetas
-        st.subheader("🎯 Puntajes Totales:")
-        cols = st.columns(4)
-        for idx, nombre in enumerate(participantes_visibles_tab3):
-            with cols[idx % 4]:
+        st.markdown("<h3>📊 Puntajes Totales:</h3>", unsafe_allow_html=True)
+
+        # Mostrar tarjetas en filas de 5
+        cols = st.columns(5)
+        for i, nombre in enumerate(participantes_visibles_tab3):
+            with cols[i % 5]:
                 st.markdown(f"""
-                <div class="card">
-                <h4>{nombre}</h4>
-                <p><strong>{st.session_state.puntajes[nombre].get("A", 0)}</strong></p>
-                </div>
+                    <div class="card">
+                        {nombre}<br>A: {st.session_state.puntajes[nombre].get("A", 0)}
+                    </div>
                 """, unsafe_allow_html=True)
-        
+
         if st.button("🔄 Reiniciar puntajes", key="reiniciar_tab3"):
             for nombre in st.session_state.puntajes:
                 st.session_state.puntajes[nombre]["A"] = st.session_state.puntaje_base_a
@@ -167,7 +189,7 @@ with tab3:
 # 🏅 Pestaña 4: Dos Contadores (A y B)
 # ----------------------
 with tab4:
-    st.subheader("🏅 Puntajes con Dos Contadores (A y B)")
+    st.markdown("<h2>🏅 Puntajes con Dos Contadores (A y B)</h2>", unsafe_allow_html=True)
 
     participantes_visibles_tab4 = st.session_state.orden_personalizado if st.session_state.orden_personalizado else st.session_state.participantes
 
@@ -188,19 +210,17 @@ with tab4:
             st.session_state.puntajes[jugador][tipo_puntaje] += nuevo_puntaje
             st.success(f"{jugador} ahora tiene {st.session_state.puntajes[jugador][tipo_puntaje]} puntos en el puntaje {tipo_puntaje}.")
 
-        # Mostrar como tarjetas
-        st.subheader("🎯 Puntajes Totales:")
-        cols = st.columns(4)
-        for idx, nombre in enumerate(participantes_visibles_tab4):
-            with cols[idx % 4]:
+        st.markdown("<h3>📊 Puntajes Totales:</h3>", unsafe_allow_html=True)
+
+        cols = st.columns(5)
+        for i, nombre in enumerate(participantes_visibles_tab4):
+            with cols[i % 5]:
                 st.markdown(f"""
-                <div class="card">
-                <h4>{nombre}</h4>
-                <p>A: <strong>{st.session_state.puntajes[nombre].get("A", 0)}</strong></p>
-                <p>B: <strong>{st.session_state.puntajes[nombre].get("B", 0)}</strong></p>
-                </div>
+                    <div class="card">
+                        {nombre}<br>A: {st.session_state.puntajes[nombre].get("A", 0)}<br>B: {st.session_state.puntajes[nombre].get("B", 0)}
+                    </div>
                 """, unsafe_allow_html=True)
-        
+
         if st.button("🔄 Reiniciar puntajes", key="reiniciar_tab4"):
             for nombre in st.session_state.puntajes:
                 st.session_state.puntajes[nombre]["A"] = st.session_state.puntaje_base_a
