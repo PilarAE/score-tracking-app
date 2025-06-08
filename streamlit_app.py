@@ -1,3 +1,5 @@
+import streamlit as st
+
 # Configuración de la página
 st.set_page_config(page_title="App Interactiva", layout="centered")
 
