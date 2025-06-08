@@ -23,7 +23,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Título general
-st.markdown("<h1>🏆 App de Conteo de Puntajes</h1>", unsafe_allow_html=True)
+st.markdown("<h2>🏆 App de Conteo de Puntajes</h2>", unsafe_allow_html=True)
 
 # Inicializar variables de sesión
 if "participantes" not in st.session_state:
@@ -48,7 +48,7 @@ tab1, tab2, tab3, tab4 = st.tabs([
 # 📖 Pestaña 1: Instrucciones
 # ----------------------
 with tab1:
-    st.markdown("<h2>📖 ¿Cómo usar esta app?</h2>", unsafe_allow_html=True)
+    st.markdown("<h4>📖 ¿Cómo usar esta app?</h4>", unsafe_allow_html=True)
     st.markdown("""
     Esta aplicación tiene tres secciones:
     
@@ -61,8 +61,8 @@ with tab1:
 # 👥 Pestaña 2: Configuración del Juego
 # ----------------------
 with tab2:
-    st.markdown("<h2>👥 Configura el Juego</h2>", unsafe_allow_html=True)
-    st.markdown("<h3>⚙️ Puntajes Base</h3>", unsafe_allow_html=True)
+    st.markdown("<h4>👥 Configura el Juego</h4>", unsafe_allow_html=True)
+    st.markdown("<h4>⚙️ Puntajes Base</h4>", unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
     with col1:
@@ -78,7 +78,7 @@ with tab2:
     st.markdown("---")
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown("<h3>👥 Agrega Participantes</h3>", unsafe_allow_html=True)
+        st.markdown("<h4>👥 Agrega Participantes</h4>", unsafe_allow_html=True)
         nombre = st.text_input("✍️ Escribe un nombre:")
 
         if st.button("➕ Agregar"):
@@ -121,7 +121,7 @@ with tab2:
 # 🎯 Pestaña 3: Puntaje único (solo A)
 # ----------------------
 with tab3:
-    st.markdown("<h2>🎯 Puntaje Único</h2>", unsafe_allow_html=True)
+    st.markdown("<h4>🏅 Puntaje Único</h4>", unsafe_allow_html=True)
 
     participantes_visibles_tab3 = st.session_state.orden_personalizado if st.session_state.orden_personalizado else st.session_state.participantes
 
@@ -141,7 +141,7 @@ with tab3:
             st.session_state.puntajes[jugador]["A"] += nuevo_puntaje
             st.success(f"{jugador} ahora tiene {st.session_state.puntajes[jugador]['A']} puntos.")
 
-        st.markdown("<h3>📊 Puntajes Totales:</h3>", unsafe_allow_html=True)
+        st.markdown("<h4>🎯 Puntajes Totales:</h4>", unsafe_allow_html=True)
 
         # Mostrar tarjetas en filas de 5
         cols = st.columns(5)
@@ -162,7 +162,7 @@ with tab3:
 # 🏅 Pestaña 4: Dos Contadores (A y B)
 # ----------------------
 with tab4:
-    st.markdown("<h2>🏅 Puntajes con Dos Contadores (A y B)</h2>", unsafe_allow_html=True)
+    st.markdown("<h4>🏅 Puntajes con Dos Contadores (A y B)</h4>", unsafe_allow_html=True)
 
     participantes_visibles_tab4 = st.session_state.orden_personalizado if st.session_state.orden_personalizado else st.session_state.participantes
 
@@ -183,7 +183,7 @@ with tab4:
             st.session_state.puntajes[jugador][tipo_puntaje] += nuevo_puntaje
             st.success(f"{jugador} ahora tiene {st.session_state.puntajes[jugador][tipo_puntaje]} puntos en el puntaje {tipo_puntaje}.")
 
-        st.markdown("<h3>📊 Puntajes Totales:</h3>", unsafe_allow_html=True)
+        st.markdown("<h4>🎯 Puntajes Totales:</h4>", unsafe_allow_html=True)
 
         cols = st.columns(5)
         for i, nombre in enumerate(participantes_visibles_tab4):
