@@ -7,38 +7,42 @@ st.set_page_config(page_title="App Interactiva", layout="centered")
 # Estilo visual personalizado
 st.markdown("""
 <style>
+/* Fondo de la página: gris oscuro */
 body {
-    background-color: #2b2b2b;
+    background-color: #444; /* Igual que el fondo actual de las cards */
     color: white;
 }
 
+/* Encabezados con tamaño reducido y letras blancas */
 h1, h2, h3, h4 {
-    color: #f9f9f9;
-    font-size: 1.6em;
+    color: white;
+    font-size: 1.4em;
 }
 
+/* Texto general y textos pequeños */
 small, .markdown-text-container {
-    color: #cccccc;
+    color: white;
 }
 
+/* Botones personalizados */
 button {
-    background-color: #f4b400 !important;
-    color: black !important;
+    background-color: #f4b400 !important;  /* Amarillo opaco */
+    color: #444 !important;                /* Letras gris oscuro */
     border-radius: 12px !important;
     font-weight: bold !important;
 }
 
-/* Estilo tabla */
+/* Estilo para tablas */
 div[data-testid="stTable"] table {
-    background-color: #3a3a3a;
+    background-color: #555;  /* Más claro que el fondo */
     color: white;
     border-radius: 10px;
 }
 
-/* Tarjetas para jugadores */
+/* Tarjetas de jugadores más claras */
 .card {
-    background-color: #444;
-    border: 1px solid #666;
+    background-color: #666; /* Gris más claro que el fondo */
+    border: 1px solid #888;
     border-radius: 12px;
     padding: 16px;
     margin: 8px;
