@@ -41,7 +41,7 @@ if "orden_personalizado" not in st.session_state:
 
 # Crear las pestañas
 tab1, tab2, tab3, tab4 = st.tabs([
-    "📖 Instrucciones", "👥 Configura el Juego", "🎯 Puntaje Único", "🏅 Dos Contadores"
+    "📖 Instrucciones", "👥 Configura el Juego", "🏅 Puntaje Único", "🏅 Dos Contadores"
 ])
 
 # ----------------------
