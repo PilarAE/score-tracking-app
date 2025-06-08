@@ -174,17 +174,17 @@ with tab3:
             st.session_state.puntajes[jugador]["A"] += nuevo_puntaje
             st.success(f"{jugador} ahora tiene {st.session_state.puntajes[jugador]['A']} puntos.")
 
-        # Mostrar como tabla
+        # Mostrar como tarjetas
         st.subheader("📊 Puntajes Totales:")
-        data = {
-            "Participante": [],
-            "Puntaje": [],
-        }
-        for nombre in participantes_visibles_tab3:
-            data["Participante"].append(nombre)
-            data["Puntaje"].append(st.session_state.puntajes[nombre].get("A", 0))
-        df = pd.DataFrame(data)
-        st.table(df.reset_index(drop=True))
+        cols = st.columns(4)
+        for idx, nombre in enumerate(participantes_visibles_tab3):
+            with cols[idx % 4]:
+                st.markdown(f"""
+                <div class="card">
+                <h4>{nombre}</h4>
+                <p>🎯 Puntaje: <strong>{st.session_state.puntajes[nombre].get("A", 0)}</strong></p>
+                </div>
+                """, unsafe_allow_html=True)
         
         if st.button("🔄 Reiniciar puntajes", key="reiniciar_tab3"):
             for nombre in st.session_state.puntajes:
