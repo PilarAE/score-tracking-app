@@ -75,14 +75,14 @@ with tab3:
             if nombre not in st.session_state.puntajes:
                 st.session_state.puntajes[nombre] = 0
 
-        # Seleccionar jugador:
-        jugador = st.radio("Selecciona un jugador:", st.session_state.participantes, horizontal=False)
+        # Mostrar los jugadores como radio buttons
+        jugador = st.radio("Selecciona un jugador:", st.session_state.participantes)
 
         # Ingresar puntaje nuevo
         nuevo_puntaje = st.number_input("Puntaje a agregar:", min_value=0, step=1)
 
         # Botón para agregar puntaje
-        if st.button("➕ Sumar puntaje"):
+        if st.button("➕ Sumar puntaje") and jugador:
             st.session_state.puntajes[jugador] += nuevo_puntaje
             st.success(f"{jugador} ahora tiene {st.session_state.puntajes[jugador]} puntos.")
 
@@ -97,9 +97,8 @@ with tab3:
                 st.session_state.puntajes[nombre] = 0
             st.info("Todos los puntajes fueron reiniciados a 0.")
 
-    st.markdown("""
-    ---
-    """)
+    st.markdown("""---""")
+
 
 
 # Footer divertido
