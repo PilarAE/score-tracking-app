@@ -24,7 +24,7 @@ with tab1:
     Esta aplicación tiene tres secciones:
     
     1. **Ingresa Participantes:** Aquí puedes agregar los nombres de los participantes.
-    2. **Ingresa Puntajes:** Una vez que tengas la lista de participantes, puedes empezar a jugar y registrar sus puntajes.
+    2. **Ingresa Puntajes:** Puedes llevar dos tipos de puntaje por persona (A y B).
     3. **Pásalo bien:** Esta app está pensada para actividades grupales como juegos, concursos, dinámicas educativas o team building.
     
     ---
@@ -49,6 +49,7 @@ with tab2:
                 st.warning("Este nombre ya fue ingresado.")
             else:
                 st.session_state.participantes.append(nombre_limpio)
+                st.session_state.puntajes[nombre_limpio] = {"A": 0, "B": 0}
                 st.success(f"Agregado: {nombre_limpio}")
 
     with col2:
@@ -73,34 +74,35 @@ with tab3:
     if not st.session_state.participantes:
         st.warning("Primero agrega participantes en la pestaña anterior.")
     else:
-        # Inicializar puntajes si no existen
+        # Asegurar que todos los participantes tengan ambos tipos de puntajes
         for nombre in st.session_state.participantes:
             if nombre not in st.session_state.puntajes:
-                st.session_state.puntajes[nombre] = 0
+                st.session_state.puntajes[nombre] = {"A": 0, "B": 0}
+            else:
+                if "A" not in st.session_state.puntajes[nombre]:
+                    st.session_state.puntajes[nombre]["A"] = 0
+                if "B" not in st.session_state.puntajes[nombre]:
+                    st.session_state.puntajes[nombre]["B"] = 0
 
-        # Mostrar los jugadores como radio buttons
         jugador = st.radio("Selecciona un jugador:", st.session_state.participantes)
-
-        # Ingresar puntaje nuevo
+        tipo_puntaje = st.radio("¿Qué puntaje deseas sumar?", ["A", "B"], horizontal=True)
         nuevo_puntaje = st.number_input("Puntaje a agregar:", min_value=0, step=1)
 
-        # Botón para agregar puntaje
         if st.button("➕ Sumar puntaje") and jugador:
-            st.session_state.puntajes[jugador] += nuevo_puntaje
-            st.success(f"{jugador} ahora tiene {st.session_state.puntajes[jugador]} puntos.")
+            st.session_state.puntajes[jugador][tipo_puntaje] += nuevo_puntaje
+            st.success(f"{jugador} ahora tiene {st.session_state.puntajes[jugador][tipo_puntaje]} puntos en el puntaje {tipo_puntaje}.")
 
-        # Mostrar tabla de puntajes actualizados
         st.subheader("📊 Puntajes Totales:")
-        for nombre, puntaje in st.session_state.puntajes.items():
-            st.markdown(f"- **{nombre}**: {puntaje} puntos")
+        for nombre, p in st.session_state.puntajes.items():
+            st.markdown(f"- **{nombre}**: A = {p['A']} puntos | B = {p['B']} puntos")
 
-        # Botón para reiniciar todos los puntajes
         if st.button("🔄 Reiniciar puntajes"):
             for nombre in st.session_state.puntajes:
-                st.session_state.puntajes[nombre] = 0
+                st.session_state.puntajes[nombre] = {"A": 0, "B": 0}
             st.info("Todos los puntajes fueron reiniciados a 0.")
 
     st.markdown("""---""")
+
 
 
 
