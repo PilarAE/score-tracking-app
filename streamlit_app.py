@@ -4,6 +4,54 @@ import pandas as pd
 # Configuración de la página
 st.set_page_config(page_title="App Interactiva", layout="centered")
 
+# Estilo visual personalizado
+st.markdown("""
+<style>
+body {
+    background-color: #2b2b2b;
+    color: white;
+}
+
+h1, h2, h3, h4 {
+    color: #f9f9f9;
+    font-size: 1.6em;
+}
+
+small, .markdown-text-container {
+    color: #cccccc;
+}
+
+button {
+    background-color: #f4b400 !important;
+    color: black !important;
+    border-radius: 12px !important;
+    font-weight: bold !important;
+}
+
+/* Estilo tabla */
+div[data-testid="stTable"] table {
+    background-color: #3a3a3a;
+    color: white;
+    border-radius: 10px;
+}
+
+/* Tarjetas para jugadores */
+.card {
+    background-color: #444;
+    border: 1px solid #666;
+    border-radius: 12px;
+    padding: 16px;
+    margin: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    text-align: center;
+    color: white;
+}
+</style>
+""", unsafe_allow_html=True)
+
+#########################################
+
+
 # Título general
 st.title("🏆 App de Conteo de Puntajes")
 
