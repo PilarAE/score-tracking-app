@@ -50,7 +50,7 @@ tab1, tab2, tab3, tab4 = st.tabs([
 # 📖 Pestaña 1: Instrucciones
 # ----------------------
 with tab1:
-    st.header("📖 ¿Cómo usar esta app?")
+    st.subheader("📖 ¿Cómo usar esta app?")
     st.markdown("""
     Esta aplicación tiene tres secciones:
     
@@ -63,8 +63,8 @@ with tab1:
 # 👥 Pestaña 2: Configuración del Juego
 # ----------------------
 with tab2:
-    st.header("👥 Configura el Juego")
-    st.subheader("⚙️ Puntajes Base")
+    st.subheader("👥 Configura el Juego")
+    st.subsubheader("⚙️ Puntajes Base")
 
     col1, col2 = st.columns(2)
     with col1:
@@ -80,7 +80,7 @@ with tab2:
     st.markdown("---")
     col1, col2 = st.columns(2)
     with col1:
-        st.subheader("👥 Agrega Participantes")
+        st.subsubheader("👥 Agrega Participantes")
         nombre = st.text_input("✍️ Escribe un nombre:")
 
         if st.button("➕ Agregar"):
@@ -100,7 +100,7 @@ with tab2:
     # Reordenar participantes (añadido aquí)
     with col2:
         if st.session_state.participantes:
-            st.subheader("🔀 Reordenar turnos")
+            st.subsubheader("🔀 Reordena los turnos")
 
             jugadores_disponibles = st.session_state.participantes.copy()
             nuevo_orden = []
@@ -126,7 +126,7 @@ with tab2:
 # 🎯 Pestaña 3: Puntaje único (solo A)
 # ----------------------
 with tab3:
-    st.header("🏅 Puntaje Único")
+    st.subheader("🏅 Puntaje Único")
 
     participantes_visibles_tab3 = st.session_state.orden_personalizado if st.session_state.orden_personalizado else st.session_state.participantes
 
@@ -147,7 +147,7 @@ with tab3:
             st.success(f"{jugador} ahora tiene {st.session_state.puntajes[jugador]['A']} puntos.")
 
         # Mostrar como tarjetas
-        st.subheader("🎯 Puntajes Totales:")
+        st.subsubheader("🎯 Puntajes Totales:")
         cols = st.columns(4)
         for idx, nombre in enumerate(participantes_visibles_tab3):
             with cols[idx % 4]:
@@ -167,7 +167,7 @@ with tab3:
 # 🏅 Pestaña 4: Dos Contadores (A y B)
 # ----------------------
 with tab4:
-    st.header("🏅 Puntajes con Dos Contadores (A y B)")
+    st.subheader("🏅 Puntajes con Dos Contadores (A y B)")
 
     participantes_visibles_tab4 = st.session_state.orden_personalizado if st.session_state.orden_personalizado else st.session_state.participantes
 
@@ -189,7 +189,7 @@ with tab4:
             st.success(f"{jugador} ahora tiene {st.session_state.puntajes[jugador][tipo_puntaje]} puntos en el puntaje {tipo_puntaje}.")
 
         # Mostrar como tarjetas
-        st.subheader("🎯 Puntajes Totales:")
+        st.subsubheader("🎯 Puntajes Totales:")
         cols = st.columns(4)
         for idx, nombre in enumerate(participantes_visibles_tab4):
             with cols[idx % 4]:
