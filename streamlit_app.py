@@ -75,7 +75,8 @@ with tab3:
             if nombre not in st.session_state.puntajes:
                 st.session_state.puntajes[nombre] = 0
 
-        # Seleccionar jugador: jugador = st.radio("Selecciona un jugador:", st.session_state.participantes, horizontal=False)
+        # Seleccionar jugador:
+        jugador = st.radio("Selecciona un jugador:", st.session_state.participantes, horizontal=False)
 
         # Ingresar puntaje nuevo
         nuevo_puntaje = st.number_input("Puntaje a agregar:", min_value=0, step=1)
