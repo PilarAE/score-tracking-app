@@ -175,14 +175,14 @@ with tab3:
             st.success(f"{jugador} ahora tiene {st.session_state.puntajes[jugador]['A']} puntos.")
 
         # Mostrar como tarjetas
-        st.subheader("📊 Puntajes Totales:")
+        st.subheader("🎯 Puntajes Totales:")
         cols = st.columns(4)
         for idx, nombre in enumerate(participantes_visibles_tab3):
             with cols[idx % 4]:
                 st.markdown(f"""
                 <div class="card">
                 <h4>{nombre}</h4>
-                <p>🎯 Puntaje: <strong>{st.session_state.puntajes[nombre].get("A", 0)}</strong></p>
+                <p>Puntaje: <strong>{st.session_state.puntajes[nombre].get("A", 0)}</strong></p>
                 </div>
                 """, unsafe_allow_html=True)
         
@@ -216,20 +216,19 @@ with tab4:
             st.session_state.puntajes[jugador][tipo_puntaje] += nuevo_puntaje
             st.success(f"{jugador} ahora tiene {st.session_state.puntajes[jugador][tipo_puntaje]} puntos en el puntaje {tipo_puntaje}.")
 
-        # Mostrar como tabla
+        # Mostrar como tarjetas
         st.subheader("📊 Puntajes Totales:")
-        data = {
-            "Participante": [],
-            "Puntaje A": [],
-            "Puntaje B": []
-        }
-        for nombre in participantes_visibles_tab4:
-            data["Participante"].append(nombre)
-            data["Puntaje A"].append(st.session_state.puntajes[nombre].get("A", 0))
-            data["Puntaje B"].append(st.session_state.puntajes[nombre].get("B", 0))
-        df = pd.DataFrame(data)
-        st.table(df.reset_index(drop=True))
-
+        cols = st.columns(4)
+        for idx, nombre in enumerate(participantes_visibles_tab4):
+            with cols[idx % 4]:
+            st.markdown(f"""
+            <div class="card">
+                <h4>{nombre}</h4>
+                <p>A: <strong>{st.session_state.puntajes[nombre].get("A", 0)}</strong></p>
+                <p>B: <strong>{st.session_state.puntajes[nombre].get("B", 0)}</strong></p>
+            </div>
+            """, unsafe_allow_html=True)
+        
         if st.button("🔄 Reiniciar puntajes", key="reiniciar_tab4"):
             for nombre in st.session_state.puntajes:
                 st.session_state.puntajes[nombre]["A"] = st.session_state.puntaje_base_a
