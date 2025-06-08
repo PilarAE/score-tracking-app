@@ -42,11 +42,14 @@ with tab2:
         nombre = st.text_input("✍️ Escribe un nombre:")
 
         if st.button("➕ Agregar"):
-            if nombre.strip() != "":
-                st.session_state.participantes.append(nombre.strip())
-                st.success(f"Agregado: {nombre}")
-            else:
+            nombre_limpio = nombre.strip()
+            if nombre_limpio == "":
                 st.warning("Por favor, escribe un nombre válido.")
+            elif nombre_limpio in st.session_state.participantes:
+                st.warning("Este nombre ya fue ingresado.")
+            else:
+                st.session_state.participantes.append(nombre_limpio)
+                st.success(f"Agregado: {nombre_limpio}")
 
     with col2:
         if st.session_state.participantes:
@@ -55,13 +58,11 @@ with tab2:
                 st.markdown(f"- {i}. {p}")
 
             if st.button("🗑️ Limpiar lista"):
-    st.session_state.participantes = []
-    st.session_state.puntajes = {}
-    st.info("Lista de participantes y puntajes vaciada.")
-
+                st.session_state.participantes = []
+                st.session_state.puntajes = {}
+                st.info("Lista de participantes y puntajes vaciada.")
 
     st.markdown("""---""")
-
 
 # ----------------------
 # 🎯 Pestaña 3: Puntajes
