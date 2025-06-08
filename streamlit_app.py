@@ -18,7 +18,7 @@ if "puntaje_base" not in st.session_state:
 
 # Crear las pestañas
 tab1, tab2, tab3, tab4 = st.tabs([
-    "📖 Instrucciones", "👥 Ingresa Participantes", "🎯 Ingresa Puntaje", "🏅 Puntajes A y B"
+    "📖 Instrucciones", "👥 Ingresa Participantes", "🎯 Ingresa Puntaje", "🏅 Puntajes con Dos Contadores"
 ])
 
 # ----------------------
@@ -130,34 +130,44 @@ with tab3:
                 st.session_state.puntajes[nombre]["A"] = puntaje_base
             st.info(f"Todos los puntajes fueron reiniciados a {puntaje_base}.")
 
-    st.markdown("---")
 
 # ----------------------
 # 🏅 Pestaña 4: Puntajes A y B
 # ----------------------
 with tab4:
-    st.header("🏅 Registrar Puntajes A y B")
+    st.header("🏅 Puntajes con Dos Contadores")
 
     if not st.session_state.participantes:
         st.warning("Primero agrega participantes en la pestaña anterior.")
     else:
+        # Sección de puntajes iniciales específicos para A y B
+        col_a, col_b = st.columns(2)
+        with col_a:
+            puntaje_inicial_a = st.number_input("Puntaje inicial para A:", step=1, value=0, key="puntaje_inicial_a")
+        with col_b:
+            puntaje_inicial_b = st.number_input("Puntaje inicial para B:", step=1, value=0, key="puntaje_inicial_b")
+
+        # Inicializar puntajes A y B por separado
         for nombre in st.session_state.participantes:
             if nombre not in st.session_state.puntajes:
-                st.session_state.puntajes[nombre] = {"A": puntaje_base, "B": puntaje_base}
+                st.session_state.puntajes[nombre] = {
+                    "A": puntaje_inicial_a,
+                    "B": puntaje_inicial_b
+                }
             else:
                 if "A" not in st.session_state.puntajes[nombre]:
-                    st.session_state.puntajes[nombre]["A"] = puntaje_base
+                    st.session_state.puntajes[nombre]["A"] = puntaje_inicial_a
                 if "B" not in st.session_state.puntajes[nombre]:
-                    st.session_state.puntajes[nombre]["B"] = puntaje_base
+                    st.session_state.puntajes[nombre]["B"] = puntaje_inicial_b
 
+        # Selección de jugador y tipo de puntaje a modificar
         col_jugador, col_puntaje = st.columns([2, 2])
 
         with col_jugador:
-            jugador = st.selectbox("Selecciona un jugador:", st.session_state.participantes)
+            jugador = st.radio("Selecciona un jugador:", st.session_state.participantes)
 
         with col_puntaje:
             tipo_puntaje = st.radio("¿Qué puntaje deseas modificar?", ["A", "B"], horizontal=True)
-
             if st.session_state.permitir_negativos:
                 nuevo_puntaje = st.number_input("Puntaje a agregar o restar:", step=1, value=0, key="puntaje_doble")
             else:
@@ -167,12 +177,39 @@ with tab4:
             st.session_state.puntajes[jugador][tipo_puntaje] += nuevo_puntaje
             st.success(f"{jugador} ahora tiene {st.session_state.puntajes[jugador][tipo_puntaje]} puntos en el puntaje {tipo_puntaje}.")
 
+        # Mostrar puntajes como tabla
         st.subheader("📊 Puntajes Totales A y B:")
-        for nombre, p in st.session_state.puntajes.items():
-            st.markdown(f"- **{nombre}**: A = {p.get('A', 0)} pts | B = {p.get('B', 0)} pts")
+        import pandas as pd
 
+        data = {
+            "Participante": [],
+            "Puntaje A": [],
+            "Puntaje B": []
+        }
+
+        for nombre, p in st.session_state.puntajes.items():
+            data["Participante"].append(nombre)
+            data["Puntaje A"].append(p.get("A", 0))
+            data["Puntaje B"].append(p.get("B", 0))
+
+        df_puntajes = pd.DataFrame(data)
+        st.table(df_puntajes)
+
+        # Botón para reiniciar A y B
         if st.button("🔄 Reiniciar A y B"):
             for nombre in st.session_state.puntajes:
-                st.session_state.puntajes[nombre]["A"] = puntaje_base
-                st.session_state.puntajes[nombre]["B"] = puntaje_base
-            st.info(f"Todos los puntajes A y B fueron reiniciados a {puntaje_base}.")
+                st.session_state.puntajes[nombre]["A"] = puntaje_inicial_a
+                st.session_state.puntajes[nombre]["B"] = puntaje_inicial_b
+            st.info(f"Todos los puntajes A y B fueron reiniciados.")
+
+
+
+# ----------------------
+# 📌 Pie de página global
+# ----------------------
+st.markdown("""
+<hr style="margin-top: 2em; margin-bottom: 1em;">
+<center>
+    <small>Desarrollado por Rodrigo López, Innovación CVD, usando ChatGPT + GitHub + Streamlit · © 2025</small>
+</center>
+""", unsafe_allow_html=True)
