@@ -55,8 +55,10 @@ with tab2:
                 st.markdown(f"- {i}. {p}")
 
             if st.button("🗑️ Limpiar lista"):
-                st.session_state.participantes = []
-                st.info("Lista vaciada.")
+    st.session_state.participantes = []
+    st.session_state.puntajes = {}
+    st.info("Lista de participantes y puntajes vaciada.")
+
 
     st.markdown("""---""")
 
