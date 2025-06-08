@@ -13,7 +13,7 @@ if "puntajes" not in st.session_state:
     st.session_state.puntajes = {}
 
 # Crear las pestañas
-tab1, tab2, tab3 = st.tabs(["📖 Instrucciones", "👥 Ingresa Participantes", "🎯 Ingresa Puntajes"])
+tab1, tab2, tab3 tab4 = st.tabs(["📖 Instrucciones", "👥 Ingresa Participantes", "🎯 Ingresa Puntajes"])
 
 # ----------------------
 # 📖 Pestaña 1: Instrucciones
