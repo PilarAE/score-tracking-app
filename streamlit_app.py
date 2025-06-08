@@ -5,6 +5,8 @@ import pandas as pd
 st.set_page_config(page_title="App Interactiva", layout="centered")
 
 # Estilo visual personalizado
+st.markdown("""
+<style>
 /* Tarjetas (puedes usarlas con st.markdown usando div.card) */
 .card {
     background-color: #666;
