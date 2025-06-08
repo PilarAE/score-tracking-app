@@ -38,8 +38,25 @@ with tab1:
 # 👥 Pestaña 2: Participantes
 # ----------------------
 with tab2:
-    st.header("👥 Agregar Participantes")
-    col1, col2 = st.columns(2)
+# ----------------------
+# ⚙️ Configuración global
+# ----------------------
+st.header("👥 Agregar Participantes")
+st.subheader("⚙️ Configuración de Puntajes")
+
+puntaje_base = st.number_input(
+    "Define el puntaje base con el que parten todos los jugadores (dejar en 0 para comenzar en 0):",
+    value=st.session_state.puntaje_base, step=1
+)
+st.session_state.puntaje_base = puntaje_base
+
+st.session_state.permitir_negativos = st.toggle(
+    "¿Permitir que los puntajes bajen (valores negativos)?",
+    value=st.session_state.permitir_negativos
+)
+
+st.markdown("---")
+        col1, col2 = st.columns(2)
 
     with col1:
         nombre = st.text_input("✍️ Escribe un nombre:")
@@ -67,22 +84,6 @@ with tab2:
                 st.info("Lista de participantes y puntajes vaciada.")
 
     
-# ----------------------
-# ⚙️ Configuración global
-# ----------------------
-st.markdown("---")
-st.subheader("⚙️ Configuración de Puntajes")
-
-puntaje_base = st.number_input(
-    "Define el puntaje base con el que parten todos los jugadores (dejar en 0 para comenzar en 0):",
-    value=st.session_state.puntaje_base, step=1
-)
-st.session_state.puntaje_base = puntaje_base
-
-st.session_state.permitir_negativos = st.toggle(
-    "¿Permitir que los puntajes bajen (valores negativos)?",
-    value=st.session_state.permitir_negativos
-)
 
 st.markdown("---")
 
