@@ -1,5 +1,3 @@
-import streamlit as st
-
 # Configuración de la página
 st.set_page_config(page_title="App Interactiva", layout="centered")
 
@@ -13,7 +11,7 @@ if "puntajes" not in st.session_state:
     st.session_state.puntajes = {}
 
 # Crear las pestañas
-tab1, tab2, tab3 tab4 = st.tabs(["📖 Instrucciones", "👥 Ingresa Participantes", "🎯 Ingresa Puntajes" "🎯 Ingresa 2 Puntajes"])
+tab1, tab2, tab3 = st.tabs(["📖 Instrucciones", "👥 Ingresa Participantes", "🎯 Ingresa Puntajes"])
 
 # ----------------------
 # 📖 Pestaña 1: Instrucciones
@@ -24,7 +22,7 @@ with tab1:
     Esta aplicación tiene tres secciones:
     
     1. **Ingresa Participantes:** Aquí puedes agregar los nombres de los participantes.
-    2. **Ingresa Puntajes:** Puedes llevar dos tipos de puntaje por persona (A y B).
+    2. **Ingresa Puntajes:** Una vez que tengas la lista de participantes, puedes empezar a jugar y registrar sus puntajes.
     3. **Pásalo bien:** Esta app está pensada para actividades grupales como juegos, concursos, dinámicas educativas o team building.
     
     ---
@@ -49,7 +47,6 @@ with tab2:
                 st.warning("Este nombre ya fue ingresado.")
             else:
                 st.session_state.participantes.append(nombre_limpio)
-                st.session_state.puntajes[nombre_limpio] = {"A": 0, "B": 0}
                 st.success(f"Agregado: {nombre_limpio}")
 
     with col2:
@@ -64,7 +61,6 @@ with tab2:
                 st.info("Lista de participantes y puntajes vaciada.")
 
     st.markdown("""---""")
-
 
 # ----------------------
 # 🎯 Pestaña 3: Puntajes
@@ -103,49 +99,3 @@ with tab3:
             st.info("Todos los puntajes fueron reiniciados a 0.")
 
     st.markdown("""---""")
-
-
-# ----------------------
-# 🎯 Pestaña 4: Puntajes
-# ----------------------
-with tab3:
-    st.header("🎯 Registrar Puntajes")
-
-    if not st.session_state.participantes:
-        st.warning("Primero agrega participantes en la pestaña anterior.")
-    else:
-        # Asegurar que todos los participantes tengan ambos tipos de puntajes
-        for nombre in st.session_state.participantes:
-            if nombre not in st.session_state.puntajes:
-                st.session_state.puntajes[nombre] = {"A": 0, "B": 0}
-            else:
-                if "A" not in st.session_state.puntajes[nombre]:
-                    st.session_state.puntajes[nombre]["A"] = 0
-                if "B" not in st.session_state.puntajes[nombre]:
-                    st.session_state.puntajes[nombre]["B"] = 0
-
-        jugador = st.radio("Selecciona un jugador:", st.session_state.participantes)
-        tipo_puntaje = st.radio("¿Qué puntaje deseas sumar?", ["A", "B"], horizontal=True)
-        nuevo_puntaje = st.number_input("Puntaje a agregar:", min_value=0, step=1)
-
-        if st.button("➕ Sumar puntaje") and jugador:
-            st.session_state.puntajes[jugador][tipo_puntaje] += nuevo_puntaje
-            st.success(f"{jugador} ahora tiene {st.session_state.puntajes[jugador][tipo_puntaje]} puntos en el puntaje {tipo_puntaje}.")
-
-        st.subheader("📊 Puntajes Totales:")
-        for nombre, p in st.session_state.puntajes.items():
-            st.markdown(f"- **{nombre}**: A = {p['A']} puntos | B = {p['B']} puntos")
-
-        if st.button("🔄 Reiniciar puntajes"):
-            for nombre in st.session_state.puntajes:
-                st.session_state.puntajes[nombre] = {"A": 0, "B": 0}
-            st.info("Todos los puntajes fueron reiniciados a 0.")
-
-    st.markdown("""---""")
-
-
-
-
-# Footer divertido
-st.markdown("Hecho por Rodrigo López de inovación")
-
