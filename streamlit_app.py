@@ -2,41 +2,14 @@ import streamlit as st
 import pandas as pd
 
 # Configuración de la página
-st.set_page_config(page_title="App Interactiva", layout="wide")
+st.set_page_config(page_title="App Interactiva", layout="centered")
 
 # Estilo visual personalizado
 st.markdown("""
 <style>
-body {
-    background-color: #444444;
-    color: white;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    color: white;
-    margin-bottom: 0.4em;
-}
-
-small, .markdown-text-container {
-    color: #dddddd;
-}
-
-button {
-    background-color: #f4b400 !important;
-    color: #444444 !important;
-    border-radius: 12px !important;
-    font-weight: bold !important;
-}
-
-div[data-testid="stTable"] table {
-    background-color: #3a3a3a;
-    color: white;
-    border-radius: 10px;
-}
-
 .card {
-    background-color: #5a5a5a;
-    border: 1px solid #888;
+    background-color: #444;
+    border: 1px solid #666;
     border-radius: 12px;
     padding: 16px;
     margin: 8px;
