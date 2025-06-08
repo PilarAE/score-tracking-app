@@ -18,7 +18,7 @@ if "puntaje_base" not in st.session_state:
 
 # Crear las pestañas
 tab1, tab2, tab3, tab4 = st.tabs([
-    "📖 Instrucciones", "👥 Ingresa Participantes", "🎯 Puntaje único", "🏅 Puntajes A y B"
+    "📖 Instrucciones", "👥 Ingresa Participantes", "🎯 Ingresa Puntaje", "🏅 Puntajes A y B"
 ])
 
 # ----------------------
@@ -29,7 +29,7 @@ with tab1:
     st.markdown("""
     Esta aplicación tiene cuatro secciones:
     
-    1. **Ingresa Participantes:** Aquí puedes agregar los nombres de los participantes. También puedes permitir puntajes negativos (o decrecientes) y definir puntaje base.
+    1. **Ingresa Participantes:** Aquí puedes agregar los nombres de los participantes. También puedes permitir que los puntajes bajen (valores negativos) y definir puntaje base.
     2. **Ingresa Puntajes:** Aquí ingresas el puntaje de cada ronda por jugador, y llevas el total.
     3. **Puntajes A y B:** Aquí puedes llevar dos puntajes por jugador (por ejemplo, ataque y defensa).
     """)
@@ -38,24 +38,24 @@ with tab1:
 # 👥 Pestaña 2: Participantes
 # ----------------------
 with tab2:
-# ----------------------
-# ⚙️ Configuración global
-# ----------------------
-st.header("👥 Agregar Participantes")
-st.subheader("⚙️ Configuración de Puntajes")
+    # ----------------------
+    # ⚙️ Configuración global
+    # ----------------------
+    st.header("👥 Agregar Participantes")
+    st.subheader("⚙️ Configuración de Puntajes")
 
-puntaje_base = st.number_input(
-    "Define el puntaje base con el que parten todos los jugadores (dejar en 0 para comenzar en 0):",
-    value=st.session_state.puntaje_base, step=1
-)
-st.session_state.puntaje_base = puntaje_base
+    puntaje_base = st.number_input(
+        "Define el puntaje base con el que parten todos los jugadores (dejar en 0 para comenzar en 0):",
+        value=st.session_state.puntaje_base, step=1
+    )
+    st.session_state.puntaje_base = puntaje_base
 
-st.session_state.permitir_negativos = st.toggle(
-    "¿Permitir que los puntajes bajen (valores negativos)?",
-    value=st.session_state.permitir_negativos
-)
+    st.session_state.permitir_negativos = st.toggle(
+        "¿Permitir que los puntajes bajen (valores negativos)?",
+        value=st.session_state.permitir_negativos
+    )
 
-st.markdown("---")
+    st.markdown("---")
         col1, col2 = st.columns(2)
 
     with col1:
@@ -91,7 +91,7 @@ st.markdown("---")
 # 🎯 Pestaña 3: Puntaje único
 # ----------------------
 with tab3:
-    st.header("🎯 Registrar Puntaje Total")
+    st.header("🎯 Registrar Puntajes")
 
     if not st.session_state.participantes:
         st.warning("Primero agrega participantes en la pestaña anterior.")
